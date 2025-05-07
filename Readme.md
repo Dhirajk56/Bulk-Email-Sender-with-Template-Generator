@@ -1,4 +1,4 @@
-# Auto Email Sender
+# Bulk Email Sender with Template Generator
 
 Auto Email Sender is a web application designed to streamline email campaigns by generating personalized email templates and sending bulk emails using CSV data.
 
