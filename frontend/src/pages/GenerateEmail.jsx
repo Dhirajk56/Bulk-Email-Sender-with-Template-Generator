@@ -38,7 +38,7 @@ const GenerateEmail = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/generate-email",
+        "https://bulk-email-sender-with-template-generator.onrender.com/api/generate-email",
         emailData
       );
       const generatedEmail = response.data.generatedEmail;

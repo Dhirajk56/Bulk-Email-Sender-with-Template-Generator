@@ -41,14 +41,17 @@ export default function App() {
 
   const handleSendEmail = async (email) => {
     try {
-      await axios.post("http://localhost:5000/api/send-email", {
-        name: email.name,
-        recieverEmail: email.email,
-        subject: email.subject,
-        content: email.content,
-        useremail: userEmail.useremail,
-        userpasscode: userEmail.userPasscode,
-      });
+      await axios.post(
+        "https://bulk-email-sender-with-template-generator.onrender.com/api/send-email",
+        {
+          name: email.name,
+          recieverEmail: email.email,
+          subject: email.subject,
+          content: email.content,
+          useremail: userEmail.useremail,
+          userpasscode: userEmail.userPasscode,
+        }
+      );
       alert(`Email sent to ${email.name}`);
     } catch (error) {
       console.error(error);
@@ -66,12 +69,15 @@ export default function App() {
 
     try {
       for (const email of RecieverEmails) {
-        await axios.post("http://localhost:5000/api/send-email", {
-          name: email.name,
-          recieverEmail: email.email,
-          subject: email.subject,
-          content: email.content,
-        });
+        await axios.post(
+          "https://bulk-email-sender-with-template-generator.onrender.com/api/send-email",
+          {
+            name: email.name,
+            recieverEmail: email.email,
+            subject: email.subject,
+            content: email.content,
+          }
+        );
       }
       alert("All emails have been sent successfully.");
     } catch (error) {
