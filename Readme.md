@@ -2,6 +2,8 @@
 
 Auto Email Sender is a web application designed to streamline email campaigns by generating personalized email templates and sending bulk emails using CSV data.
 
+```Checkout here```:https://emailautomation-six.vercel.app/
+
 ## Features
 
 - **Personalized Email Templates**: Create and customize email templates with ease.
