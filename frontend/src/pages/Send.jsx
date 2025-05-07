@@ -110,11 +110,11 @@ export default function App() {
         {/* Passcode Input */}
         <div>
           <label className="block text-gray-700 font-medium mb-1">
-            Enter Passcode
+            Enter app password without spaces
           </label>
           <input
             type="text"
-            placeholder=" Enter 16 digit Passcode"
+            placeholder=" Enter 16 digit Generated app Password 'abcd efgh ijkl mnop'"
             value={userEmail.userPasscode}
             onChange={(e) =>
               SetUserEmail({ ...userEmail, userPasscode: e.target.value })
