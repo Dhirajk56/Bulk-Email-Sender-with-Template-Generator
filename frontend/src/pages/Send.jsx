@@ -5,6 +5,7 @@ import axios from "axios";
 export default function App() {
   const [csvData, setCsvData] = useState([]);
   const [RecieverEmails, setRecieverEmails] = useState([]);
+  const [attachment, setAttachment] = useState(null);
   const [userEmail, SetUserEmail] = useState({
     useremail: "",
     userPasscode: "",
@@ -21,6 +22,13 @@ export default function App() {
           alert("CSV loaded successfully");
         },
       });
+    }
+  };
+  const handleAttachmentChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAttachment(file);
+      alert(`Attachment selected: ${file.name}`);
     }
   };
 
@@ -41,17 +49,21 @@ export default function App() {
 
   const handleSendEmail = async (email) => {
     try {
+      const formData = new FormData();
+      formData.append("name", email.name);
+      formData.append("recieverEmail", email.email);
+      formData.append("subject", email.subject);
+      formData.append("content", email.content);
+      formData.append("useremail", userEmail.useremail);
+      formData.append("userpasscode", userEmail.userPasscode);
+      if (attachment) formData.append("attachment", attachment);
+
       await axios.post(
         "https://bulk-email-sender-with-template-generator.onrender.com/api/send-email",
-        {
-          name: email.name,
-          recieverEmail: email.email,
-          subject: email.subject,
-          content: email.content,
-          useremail: userEmail.useremail,
-          userpasscode: userEmail.userPasscode,
-        }
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
+
       alert(`Email sent to ${email.name}`);
     } catch (error) {
       console.error(error);
@@ -61,7 +73,6 @@ export default function App() {
 
   const HandleAllEmail = async () => {
     if (!RecieverEmails.length) return alert("No emails to send.");
-
     const confirmed = window.confirm(
       "Are you sure you want to send all emails?"
     );
@@ -69,14 +80,19 @@ export default function App() {
 
     try {
       for (const email of RecieverEmails) {
+        const formData = new FormData();
+        formData.append("name", email.name);
+        formData.append("recieverEmail", email.email);
+        formData.append("subject", email.subject);
+        formData.append("content", email.content);
+        formData.append("useremail", userEmail.useremail);
+        formData.append("userpasscode", userEmail.userPasscode);
+        if (attachment) formData.append("attachment", attachment);
+
         await axios.post(
           "https://bulk-email-sender-with-template-generator.onrender.com/api/send-email",
-          {
-            name: email.name,
-            recieverEmail: email.email,
-            subject: email.subject,
-            content: email.content,
-          }
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
         );
       }
       alert("All emails have been sent successfully.");
@@ -154,13 +170,27 @@ export default function App() {
         </div>
 
         {/* File Upload & Buttons */}
-        <div className="flex flex-col sm:flex-row items-center gap-4">
-          <input
-            type="file"
-            accept=".csv"
-            onChange={handleFileUpload}
-            className="border border-gray-300 p-2 rounded"
-          />
+        <div className="flex flex-col sm:flex-col items-center gap-4">
+          <div>
+            <label className="text-gray-700 font-medium mb-1">Upload CSV</label>
+            <input
+              type="file"
+              accept=".csv"
+              onChange={handleFileUpload}
+              className="border border-gray-300 p-2 rounded"
+            />
+          </div>
+          <div>
+            <label className="text-gray-700 font-medium mb-1">
+              Upload Attachment
+            </label>
+            <input
+              type="file"
+              accept=".pdf"
+              onChange={handleAttachmentChange}
+              className="border border-gray-300 p-2 rounded"
+            />
+          </div>
           <button
             onClick={generateEmails}
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
