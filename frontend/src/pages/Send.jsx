@@ -54,7 +54,7 @@ export default function App() {
       formData.append("recieverEmail", email.email);
       formData.append("subject", email.subject);
       formData.append("content", email.content);
-      formData.append("useremail", userEmail.useremail);
+      formData.append("useremail", userEmail.useremail.toLowerCase());
       formData.append("userpasscode", userEmail.userPasscode);
       if (attachment) formData.append("attachment", attachment);
 

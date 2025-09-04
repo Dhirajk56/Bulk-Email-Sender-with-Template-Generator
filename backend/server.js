@@ -68,7 +68,6 @@ app.post("/api/generate-email", async (req, res) => {
 // Endpoint to send email (with attachments)
 app.post("/api/send-email", upload.single("attachment"), async (req, res) => {
   const { recieverEmail, content, subject, useremail, userpasscode } = req.body;
-  console.log(req.body);
 
   if (!recieverEmail || !content) {
     return res.status(400).json({ message: "Email and content are required." });
