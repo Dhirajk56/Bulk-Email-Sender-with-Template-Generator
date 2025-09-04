@@ -59,9 +59,11 @@ export default function App() {
       if (attachment) formData.append("attachment", attachment);
 
       await axios.post(
-        "https://bulk-email-sender-with-template-generator.onrender.com/api/send-email",
+        `${import.meta.env.VITE_BACKEND_URL}/api/send-email`,
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
 
       alert(`Email sent to ${email.name}`);
@@ -90,7 +92,7 @@ export default function App() {
         if (attachment) formData.append("attachment", attachment);
 
         await axios.post(
-          "https://bulk-email-sender-with-template-generator.onrender.com/api/send-email",
+          `${import.meta.env.VITE_BACKEND_URL}/api/send-email`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
@@ -133,7 +135,10 @@ export default function App() {
             placeholder=" Enter 16 digit Generated app Password 'abcd efgh ijkl mnop'"
             value={userEmail.userPasscode}
             onChange={(e) =>
-              SetUserEmail({ ...userEmail, userPasscode: e.target.value })
+              SetUserEmail({
+                ...userEmail,
+                userPasscode: e.target.value.replace(/\s/g, ""),
+              })
             }
             className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-blue-400"
           />
